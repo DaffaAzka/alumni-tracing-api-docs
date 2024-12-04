@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Management System API Documentation</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+        h1, h2, h3 {
+            color: #007bff;
+        }
+        pre {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .endpoint {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="text-center">Alumni Management System API Documentation</h1>
+    <hr>
+
+    <h2>Base URL</h2>
+    <p><code>&lt;url&gt;</code></p>
+
+    <h2>Authentication</h2>
+    <p>To access the API, you must include an Authorization header in the format below:</p>
+    <pre><code>Authorization: Bearer {your_token}
+Content-Type: application/json
+Accept: application/json</code></pre>
+
+    <h2>Endpoints</h2>
+
+    <div class="endpoint">
+        <h3>1. Get All Alumni</h3>
+        <p><strong>URL:</strong> <code>/api/alumni</code></p>
+        <p><strong>Method:</strong> GET</p>
+        <p><strong>Status:</strong> 200</p>
+        <p><strong>Authorization:</strong> Required</p>
+        <p><strong>Description:</strong> Retrieves all alumni data. Supports pagination and optional name-based search.</p>
+        <h4>Request Parameters:</h4>
+        <ul>
+            <li><code>current-page</code> (int): The current page number.</li>
+            <li><code>name</code> (string): Search by alumni name (optional).</li>
+        </ul>
+        <h4>Response Example:</h4>
+        <pre><code>{
+  "message": "Mengambil semua data alumni untuk page 2",
+  "total_pages": 2,
+  "data": [
+    {
+      "number": 11,
+      "id": 14,
+      "full_name": "Wadi Situmorang S.Pt",
+      "major": "Petani / Pekebun",
+      "status": "Bekerja"
+    },
+    {
+      "number": 12,
+      "id": 16,
+      "full_name": "Lulut Saragih",
+      "major": "Tukang Batu",
+      "status": "Bekerja"
+    }
+  ]
+}</code></pre>
+    </div>
+
+    <div class="endpoint">
+        <h3>2. Get Specific Alumni</h3>
+        <p><strong>URL:</strong> <code>/api/alumni/{id}</code></p>
+        <p><strong>Method:</strong> GET</p>
+        <p><strong>Status:</strong> 200</p>
+        <p><strong>Authorization:</strong> Required</p>
+        <p><strong>Description:</strong> Retrieves alumni details based on the ID.</p>
+        <h4>Response Example:</h4>
+        <pre><code>{
+  "message": "Mengambil data alumni 1",
+  "data": {
+    "id": 3,
+    "full_name": "Candrakanta Wasita",
+    "place_of_birth": "Pariaman",
+    "date_of_birth": "1986-10-02",
+    "major": "Tukang Jahit",
+    "graduation_year": "2014",
+    "status": "Bekerja",
+    "status_detail": "Ut perferendis culpa atque delectus est."
+  }
+}</code></pre>
+    </div>
+
+    <div class="endpoint">
+        <h3>3. Create Alumni</h3>
+        <p><strong>URL:</strong> <code>/api/alumni</code></p>
+        <p><strong>Method:</strong> POST</p>
+        <p><strong>Status:</strong>  201</p>
+        <p><strong>Authorization:</strong> Not Required</p>
+        <p><strong>Description:</strong> Creates new alumni data. Guests are allowed only 2 submissions per day. If exceeded, IP will be blocked for 24 hours.</p>
+        <h4>Fields:</h4>
+        <ul>
+            <li><code>full_name</code> (string): Alumni's full name.</li>
+            <li><code>place_of_birth</code> (string): Place of birth.</li>
+            <li><code>date_of_birth</code> (date): Date of birth (YYYY-MM-DD format).</li>
+            <li><code>major_id</code> (int): Major ID.</li>
+            <li><code>graduation_year</code> (year): Graduation year (YYYY format).</li>
+            <li><code>status</code> (string): Current status (e.g., Bekerja, Kuliah).</li>
+            <li><code>status_detail</code> (string): Detailed status.</li>
+        </ul>
+        <h4>Response Example:</h4>
+        <pre><code>{
+  "message": "data berhasil di buat",
+  "data": {
+    "id": 3,
+    "full_name": "Candrakanta Wasita",
+    "place_of_birth": "Pariaman",
+    "date_of_birth": "1986-10-02",
+    "major": "Tukang Jahit",
+    "graduation_year": "2014",
+    "status": "Bekerja",
+    "status_detail": "Ut perferendis culpa atque delectus est."
+  }
+}</code></pre>
+    </div>
+
+    <div class="endpoint">
+        <h3>4. Update Specific Alumni</h3>
+        <p><strong>URL:</strong> <code>/api/alumni/{id}</code></p>
+        <p><strong>Method:</strong> PUT</p>
+        <p><strong>Status:</strong> 201</p>
+        <p><strong>Authorization:</strong> Required</p>
+        <p><strong>Description:</strong> Updates alumni data by ID. Fields are the same as in the Create Alumni section.</p>
+        <h4>Response Example:</h4>
+        <pre><code>{
+  "message": "data berhasil di update",
+  "data": {
+    "id": 3,
+    "full_name": "Candrakanta Wasita",
+    "place_of_birth": "Pariaman",
+    "date_of_birth": "1986-10-02",
+    "major": "Tukang Jahit",
+    "graduation_year": "2014",
+    "status": "Bekerja",
+    "status_detail": "Ut perferendis culpa atque delectus est."
+  }
+}</code></pre>
+    </div>
+
+    <div class="endpoint">
+        <h3>5. Delete Specific Alumni</h3>
+        <p><strong>URL:</strong> <code>/api/alumni/{id}</code></p>
+        <p><strong>Method:</strong> DELETE</p>
+        <p><strong>Status:</strong> 200</p>
+        <p><strong>Authorization:</strong> Required</p>
+        <p><strong>Description:</strong> Deletes alumni data by ID.</p>
+        <h4>Response Example:</h4>
+        <pre><code>{
+  "message": "data berhasil di hapus",
+  "data": {
+    "id": 3,
+    "full_name": "Candrakanta Wasita",
+    "place_of_birth": "Pariaman",
+    "date_of_birth": "1986-10-02",
+    "major": "Tukang Jahit",
+    "graduation_year": "2014",
+    "status": "Bekerja",
+    "status_detail": "Ut perferendis culpa atque delectus est."
+  }
+}</code></pre>
+    </div>
+
+    <div class="endpoint">
+        <h3>6. Export Alumni Data</h3>
+        <p><strong>URL:</strong> <code>/api/alumni/export</code></p>
+        <p><strong>Method:</strong> GET</p>
+        <p><strong>Status:</strong> 200</p>
+        <p><strong>Authorization:</strong> Required</p>
+        <p><strong>Description:</strong> Exports all alumni data to an Excel file.</p>
+        <h4>Response:</h4>
+        <p>An Excel file named <code>Alumni.xlsx</code> will be downloaded.</p>
+    </div>
+
+    <div class="endpoint">
+        < h3>7. Count Alumni by Year</h3>
+        <p><strong>URL:</strong> <code>/api/count-by-year</code></p>
+        <p><strong>Method:</strong> GET</p>
+        <p><strong>Status:</strong> 200</p>
+        <p><strong>Authorization:</strong> Required</p>
+        <p><strong>Description:</strong> Counts the number of alumni who are working or studying by graduation year (2020-2024).</p>
+        <h4>Response Example:</h4>
+        <pre><code>{
+  "message": "Jumlah alumni berdasarkan tahun kelulusan",
+  "data": {
+    "all": {
+      "2020": 2,
+      "2021": 1,
+      "2023": 3,
+      "2024": 2
+    },
+    "kuliah": {
+      "2023": 1
+    },
+    "Bekerja": {
+      "2020": 2,
+      "2021": 1,
+      "2023": 2,
+      "2024": 2
+    }
+  }
+}</code></pre>
+    </div>
+
+    <div class="endpoint">
+        <h3>8. Count Alumni</h3>
+        <p><strong>URL:</strong> <code>/api/count</code></p>
+        <p><strong>Method:</strong> GET</p>
+        <p><strong>Status:</strong> 200</p>
+        <p><strong>Authorization:</strong> Not Required</p>
+        <p><strong>Description:</strong> Counts the total number of alumni, working alumni, and alumni in college.</p>
+        <h4>Response Example:</h4>
+        <pre><code>{
+  "message": "berhasil menghitung data",
+  "data": {
+    "all": 20,
+    "work": 17,
+    "collage": 3
+  }
+}</code></pre>
+    </div>
+
+    <div class="endpoint">
+        <h3>9. Get All Majors</h3>
+        <p><strong>URL:</strong> <code>/api/major</code></p>
+        <p><strong>Method:</strong> GET</p>
+        <p><strong>Status:</strong> 200</p>
+        <p><strong>Authorization:</strong> Not Required</p>
+        <p><strong>Description:</strong> Retrieves all major data.</p>
+        <h4>Response Example:</h4>
+        <pre><code>{
+  "message": "mengambil semua data major",
+  "data": [
+    {
+      "id": 1,
+      "name": "Teknik Ukir",
+      "created_at": "2024-10-30T06:52:23.000000Z",
+      "updated_at": "2024-10-31T02:39:29.000000Z"
+    },
+    {
+      "id": 3,
+      "name": "Seniman",
+      "created_at": "2024-10-30T06:52:23.000000Z",
+      "updated_at": "2024-10-30T06:52:23.000000Z"
+    }
+  ]
+}</code></pre>
+    </div>
+
+    <div class="endpoint">
+        <h3>10. Get Specific Major</h3>
+        <p><strong>URL:</strong> <code>/api/major/{id}</code></p>
+        <p><strong>Method:</strong> GET</p>
+        <p><strong>Status:</strong> 200</p>
+        <p><strong>Authorization:</strong> Required</p>
+        <p><strong>Description:</strong> Retrieves major details by ID, including a list of alumni associated with the major.</p>
+        <h4>Response Example:</h4>
+        <pre><code>{
+  "message": "mengambil data major 1",
+  "data": {
+    "id": 1,
+    "name": "Teknik Ukir",
+    "alumnus": [
+      {
+        "id": 7,
+        "full_name": "Jais Gunawan",
+        "place_of_birth": "Prabumulih",
+        "date_of_birth": "1971-08-25",
+        "graduation_year": "2011",
+        "status": "Bekerja",
+        "status_detail": "Excepturi voluptate natus."
+      }
+    ]
+  }
+}</code></pre>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@pop ```html
+per.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
